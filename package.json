@@ -10,7 +10,7 @@
     "eject": "react-scripts eject"
   },
   "keywords": [],
-  "author": "",
+  "author": "Gregory K. Bowne",
   "license": "ISC",
   "dependencies": {
     "@mui/icons-material": "^5.11.11",
