@@ -12,7 +12,15 @@ This app is made with:
 
 Bootstrapped with Create-React-App v5 aka react-scripts
 
+If you would like to contribute to this repository, please read our [Contributing](https://github.com/gbowne1/AgiliZenti/blob/main/CONTRIBUTING.md) document. We welcome your pull requests here. We do not 
+
 We recommend using this with Node 18.15.0
 
-The backend of this project is currently under construction so please use the Create React App development server by running:
-`npm start` inside the root of the project folder after installing with `npm i` or `npm install`.
+You should already be familiar with React 17 and or 18, JavaScript ES5/ES6/ES7 and JSX.
+
+
+This is not hosted anywhere yet and the backend of this project is currently under construction so please use the Create React App development server by running`npm start` inside the root of the project folder after installing with `npm i` or `npm install`.
+
+This is not hosted anywhere yet 
+
+If you would like something to work on, there are plenty of TODO's here <https://github.com/gbowne1/AgiliZenti/blob/main/TODO.md>
