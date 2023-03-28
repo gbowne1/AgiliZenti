@@ -1,5 +1,3 @@
-export default class controller{
-    static register(req,res){
-
-    }
+export default class controller {
+  static register(req, res) {}
 }

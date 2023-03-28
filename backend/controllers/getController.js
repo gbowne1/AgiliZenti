@@ -1,5 +1,3 @@
-export default class controller{
-    static login(req,res){
-
-    }
+export default class controller {
+  static login(req, res) {}
 }
