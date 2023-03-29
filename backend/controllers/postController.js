@@ -8,12 +8,24 @@ export default class controller {
     //-------------------validation-------------------
     if (
       typeof req.body.username !== "string" ||
-      typeof req.body.password !== "string"
+      typeof req.body.password !== "string" ||
+      typeof req.body.email !== "string"
     ) {
       res.status(400).json({
         success: false,
         body: null,
-        message: "Both username and password must be string",
+        message: "Username, password and email must be string",
+      });
+      return;
+    } else if (
+      !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        req.body.email
+      )
+    ) {
+      res.status(400).json({
+        success: false,
+        body: null,
+        message: "Email is not valid",
       });
       return;
     } else if (req.body.username.length < 5) {
@@ -33,11 +45,11 @@ export default class controller {
     }
 
     //------------------database connection-------------------
-    let checkUsername;
+    let checkUsernameEmail;
     try {
-      checkUsername = await prisma.user.findUnique({
+      checkUsernameEmail = await prisma.user.findFirst({
         where: {
-          username: req.body.username,
+          OR: [{ username: req.body.username }, { email: req.body.email }],
         },
       });
     } catch (e) {
@@ -49,11 +61,11 @@ export default class controller {
       return;
     }
 
-    if (checkUsername) {
+    if (checkUsernameEmail) {
       res.status(400).json({
         success: false,
         body: null,
-        message: "Username already exists",
+        message: "Username or email already exists",
       });
     } else {
       let user;
@@ -64,6 +76,7 @@ export default class controller {
           data: {
             username: req.body.username,
             password: encyptedPassword,
+            email: req.body.email,
           },
         });
       } catch (e) {
