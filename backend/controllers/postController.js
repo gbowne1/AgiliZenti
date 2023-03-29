@@ -33,11 +33,21 @@ export default class controller {
     }
 
     //------------------database connection-------------------
-    const checkUsername = await prisma.user.findUnique({
-      where: {
-        username: req.body.username,
-      },
-    });
+    let checkUsername;
+    try {
+      checkUsername = await prisma.user.findUnique({
+        where: {
+          username: req.body.username,
+        },
+      });
+    } catch (e) {
+      res.status(500).json({
+        success: false,
+        body: null,
+        message: "Internal error",
+      });
+      return;
+    }
 
     if (checkUsername) {
       res.status(400).json({
@@ -46,21 +56,24 @@ export default class controller {
         message: "Username already exists",
       });
     } else {
-      const encyptedPassword = await bcrypt.hash(req.body.password, 10);
-      const user = await prisma.user
-        .create({
+      let user;
+      try {
+        const encyptedPassword = await bcrypt.hash(req.body.password, 10);
+
+        user = await prisma.user.create({
           data: {
             username: req.body.username,
             password: encyptedPassword,
           },
-        })
-        .catch((e) => {
-          res.status(500).json({
-            success: false,
-            body: null,
-            message: "Internal error",
-          });
         });
+      } catch (e) {
+        res.status(500).json({
+          success: false,
+          body: null,
+          message: "Internal error",
+        });
+        return;
+      }
 
       res.status(201).json({
         success: true,

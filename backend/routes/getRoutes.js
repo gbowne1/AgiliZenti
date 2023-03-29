@@ -2,8 +2,8 @@ import express from "express";
 
 import controller from "../controllers/getController.js";
 
-const Router = express.Router();
+const router = express.Router();
 
-Router.get("login", controller.login);
+router.get("/login", controller.login);
 
-export default Router;
+export default router;

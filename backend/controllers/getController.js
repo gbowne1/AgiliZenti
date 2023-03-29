@@ -33,40 +33,40 @@ export default class controller {
     }
 
     //------------------database connection-------------------
-    const password = await prisma.user
-      .findUnique({
+    try {
+      const password = await prisma.user.findUnique({
         where: {
           username: req.query.username,
         },
         select: {
           password: true,
         },
-      })
-      .catch((e) => {
-        res.status(500).json({
-          success: false,
-          body: null,
-          message: "Internal error",
-        });
       });
 
-    if (!password) {
-      res.status(404).json({
+      if (!password.password) {
+        res.status(404).json({
+          success: false,
+          body: null,
+          message: "Username doesn't exist",
+        });
+      } else if (await bcrypt.compare(req.query.password, password.password)) {
+        res.status(200).json({
+          success: true,
+          body: null,
+          message: "OK",
+        });
+      } else {
+        res.status(403).json({
+          success: false,
+          body: null,
+          message: "Password is wrong",
+        });
+      }
+    } catch (e) {
+      res.status(500).json({
         success: false,
         body: null,
-        message: "Username doesn't exist",
-      });
-    } else if (await bcrypt.compare(req.query.password, password)) {
-      res.status(200).json({
-        success: true,
-        body: null,
-        message: "OK",
-      });
-    } else {
-      res.status(403).json({
-        success: false,
-        body: null,
-        message: "Password is wrong",
+        message: "Internal error",
       });
     }
   }
