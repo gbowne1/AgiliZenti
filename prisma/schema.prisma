@@ -11,11 +11,12 @@ datasource db {
 }
 
 model user {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  username String @unique
-  email    String @unique
-  password String
-  task     task[]
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  username      String  @unique
+  email         String  @unique
+  password      String?
+  task          task[]
+  loginStrategy String  @default("local") @map("login_strategy")
 }
 
 model task {

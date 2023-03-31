@@ -70,4 +70,20 @@ export default class controller {
       });
     }
   }
+
+  static async googleFail(req, res) {
+    res.status(500).json({
+      success: false,
+      body: null,
+      message: "authentication failed",
+    });
+  }
+
+  static async googleSuccess(req, res) {
+    // res.status(200).json({
+    //   success: true,
+    //   body: req.user,
+    //   message: "OK",
+    // });
+  }
 }
