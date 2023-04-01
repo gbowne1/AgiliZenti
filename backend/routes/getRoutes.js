@@ -36,4 +36,6 @@ router.get("/login", controller.login);
 
 router.get("/login/google/fail", controller.googleFail);
 
+router.get("/auth", controller.auth);
+
 export default router;

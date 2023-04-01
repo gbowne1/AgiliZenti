@@ -5,6 +5,36 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient({ log: ["error", "warn", "info"] });
 
 export default class controller {
+  static async auth(req, res) {
+    if (req.cookies.JWT) {
+      try {
+        const payload = await JWT.verify(
+          req.cookies.JWT,
+          process.env.JWT_SECRET || "secret"
+        );
+
+        res.status(200).json({
+          success: true,
+          body: payload,
+          message: "OK",
+        });
+      } catch (e) {
+        res.clearCookie("JWT");
+        res.status(403).json({
+          success: false,
+          body: null,
+          message: "Forbidden",
+        });
+      }
+    } else {
+      res.status(403).json({
+        success: false,
+        body: null,
+        message: "Forbidden",
+      });
+    }
+  }
+
   static async login(req, res) {
     //-------------------validation-------------------
     if (
