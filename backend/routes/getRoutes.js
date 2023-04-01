@@ -11,7 +11,9 @@ passport.use(
     {
       clientID: process.env["GOOGLE_CLIENT_ID"],
       clientSecret: process.env["GOOGLE_CLIENT_SECRET"],
-      callbackURL: "http://127.0.0.1:3001/api/login/google",
+      callbackURL:
+        process.env.BACKEND_DOMAIN ||
+        "http://127.0.0.1:3001" + "/api/login/google",
       scope: ["profile", "email"],
       state: true,
     },
